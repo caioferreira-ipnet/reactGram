@@ -8,6 +8,7 @@ const {
   login,
   getCurrentUser,
   updateProfile,
+  getUserById,
 } = require("../controllers/UserController.jsx");
 //Middlewares
 const {
@@ -37,5 +38,8 @@ router.put(
   validate,
   updateProfile,
 );
+
+//Get by id
+router.get("/:id", getUserById);
 
 module.exports = router;

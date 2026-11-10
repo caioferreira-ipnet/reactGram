@@ -98,10 +98,34 @@ const updateProfile = async (req, res) => {
   await user.save();
   res.status(200).json({ message: "Update realizado", user });
 };
+
+//Get user by Id
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ errors: ["ID inválido"] });
+  }
+
+  try {
+    const user = await User.findById(id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ errors: ["Usuário não encontrado"] });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Erro ao buscar usuário:", error);
+    return res.status(500).json({ errors: ["Erro interno do servidor"] });
+  }
+};
+
 module.exports = {
   generateToken,
   register,
   login,
   getCurrentUser,
   updateProfile,
+  getUserById,
 };
