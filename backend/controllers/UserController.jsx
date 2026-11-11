@@ -121,6 +121,8 @@ const getUserById = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   generateToken,
   register,
