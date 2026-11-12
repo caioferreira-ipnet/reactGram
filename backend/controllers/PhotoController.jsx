@@ -62,8 +62,29 @@ const getAllPhotos = async (req, res) => {
   res.status(200).json(photo);
 };
 
+//Get user photos
+const getPhotoByUser = async (req, res) => {
+  const { id } = req.params;
+  const photos = await Photo.find({ userId: id })
+    .sort([["createdAt", -1]])
+    .exec();
+  return res.status(200).json(photos);
+};
+
+//Get photo by id
+const getPhotoById = async (req, res) => {
+  const { id } = req.params;
+  const photo = await Photo.findById(new mongoose.Types.ObjectId(id));
+  if (!photo) {
+    return res.status(404).json({ errors: ["Foto não encontrada"] });
+  }
+  res.status(200).json(photo);
+};
+
 module.exports = {
   insertPhoto,
   deletePhoto,
   getAllPhotos,
+  getPhotoByUser,
+  getPhotoById,
 };
